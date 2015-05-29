@@ -28,17 +28,21 @@ import org.apache.maven.plugin.MojoExecutionException;
  */
 public abstract class AbstractOneSkyAppMojo extends AbstractMojo {
 
-    protected final String API_ENDPOINT = "https://platform.api.onesky.io/1/";
+    final String API_ENDPOINT = "https://platform.api.onesky.io/1/";
 
     @Parameter(property = "publicKey")
-    protected String publicKey;
+    String publicKey;
 
     @Parameter(property = "secretKey")
-    protected String secretKey;
+    String secretKey;
 
     @Parameter(property = "projectId")
-    protected String projectId;
+    String projectId;
     
+    /**
+     * 
+     * @throws MojoExecutionException in case of missing parameters
+     */
     @Override
     public void execute() throws MojoExecutionException {
         if (publicKey == null || secretKey == null || projectId == null){
@@ -46,12 +50,12 @@ public abstract class AbstractOneSkyAppMojo extends AbstractMojo {
         }
     }
     
-    protected void showHelp() throws MojoExecutionException{
+    void showHelp() throws MojoExecutionException{
         throw new MojoExecutionException("Missing one ore more required parameters. See https://github.com/dwissk/oneskyapp-maven-plugin");
     }
 
     
-    protected String getAuthParams(){
+    String getAuthParams(){
         final long timestamp = System.currentTimeMillis() / 1000;
         final String devHash = Hashing.md5().hashString(timestamp + secretKey, StandardCharsets.UTF_8).toString();
         return String.format("api_key=%1$s&timestamp=%2$s&dev_hash=%3$s", publicKey, timestamp, devHash);

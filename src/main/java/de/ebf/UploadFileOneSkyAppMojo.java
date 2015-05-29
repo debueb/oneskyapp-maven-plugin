@@ -47,6 +47,11 @@ public class UploadFileOneSkyAppMojo extends AbstractOneSkyAppMojo {
     @Parameter(property = "fileFormat")
     private String fileFormat;
     
+    /**
+     * upload translation files to oneskyapp
+     * 
+     * @throws MojoExecutionException in case of missing parameters or runtime exception
+     */
     @Override
     public void execute() throws MojoExecutionException {
         super.execute();

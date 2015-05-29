@@ -46,6 +46,11 @@ public class GetTranslationsOneSkyAppMojo extends AbstractOneSkyAppMojo {
     @Parameter(property = "outputDir", required = true)
     private File outputDir;
 
+    /**
+     * download translation files from oneskyapp
+     * 
+     * @throws MojoExecutionException in case of missing parameters or runtime exceptions
+     */
     @Override
     public void execute() throws MojoExecutionException {
         super.execute();
