@@ -39,6 +39,9 @@ public abstract class AbstractOneSkyAppMojo extends AbstractMojo {
     @Parameter(property = "projectId")
     String projectId;
     
+    @Parameter
+    Boolean failOnError;
+    
     /**
      * 
      * @throws MojoExecutionException in case of missing parameters

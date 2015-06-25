@@ -94,8 +94,12 @@ public class GetTranslationsOneSkyAppMojo extends AbstractOneSkyAppMojo {
                     }
                 }
             }
-        } catch (IOException ex) {
-            throw new MojoExecutionException(ex.getMessage(), ex);
+        } catch (IOException | MojoExecutionException ex) {
+            if (failOnError == null || failOnError){
+                throw new MojoExecutionException(ex.getMessage(), ex);
+            } else {
+                System.out.println("Caught exception: "+ex.getMessage());
+            }
         }
     }
 }

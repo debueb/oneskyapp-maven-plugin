@@ -15,6 +15,7 @@ Add the following to your pom.xml `<plugins>` section, replacing VARIABLES
       <publicKey>PUBLIC KEY</publicKey>             <!-- http://support.oneskyapp.com/support/solutions/articles/89104-how-to-find-your-api -->
       <secretKey>SECRET KEY</secretKey>             <!-- http://support.oneskyapp.com/support/solutions/articles/89104-how-to-find-your-api -->
       <projectId>PROJECT ID</projectId>             <!-- browse your project and take the ID from the URL -->
+      <failOnError>false</failOnError>	            <!-- defaults to true -->
   </configuration>
   <executions>
       <execution>
@@ -28,7 +29,7 @@ Add the following to your pom.xml `<plugins>` section, replacing VARIABLES
                   <param>messages.properties</param>  
               </sourceFileNames>
               <locales>                               <!-- the locales to download -->
-                  <param>DE</param>
+                  <param>de</param>
               </locales>
               <outputDir>src/main/webapp/WEB-INF/classes/</outputDir> <!-- relative or absolute file paths -->
           </configuration>
