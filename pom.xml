@@ -4,7 +4,7 @@
 
     <groupId>de.ebf</groupId>
     <artifactId>oneskyapp-maven-plugin</artifactId>
-    <version>1.0.3-SNAPSHOT</version>
+    <version>1.0.3</version>
     <packaging>maven-plugin</packaging>
     <name>de.ebf:oneskyapp-maven-plugin</name>
     <description>This plugin allows you to download and upload translation files from the excellent online translation service http://www.oneskyapp.com/</description>
