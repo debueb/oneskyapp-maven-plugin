@@ -27,10 +27,13 @@ Add the following to your pom.xml `<plugins>` section, replacing VARIABLES
           <configuration>
               <sourceFileNames>                       <!-- the file name of the original upload -->
                   <param>messages.properties</param>  
+                  <param>ValidationMessagees.properties</param>  
               </sourceFileNames>
-              <locales>                               <!-- the locales to download -->
+              <locales>                               <!-- the translations to download. files will be stored as [outputDir]/[sourceFileName]_[locale].[sourceFileNameExtension] -->
                   <param>de</param>
+                  <param>fr</param>
               </locales>
+              <sourceLocale>en</sourceLocale>         <!-- optional: will be stored as [outputDir]/[sourceFileName].[sourceFileNameExtension] -->
               <outputDir>src/main/webapp/WEB-INF/classes/</outputDir> <!-- relative or absolute file paths -->
           </configuration>
       </execution>

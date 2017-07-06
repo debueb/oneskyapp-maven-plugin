@@ -30,6 +30,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
 import org.apache.commons.io.IOUtils;
+import org.codehaus.plexus.util.StringUtils;
 
 /**
  * Goal which downloads translations from oneskyapp.com
@@ -39,6 +40,9 @@ public class GetTranslationsOneSkyAppMojo extends AbstractOneSkyAppMojo {
 
     @Parameter(property = "sourceFileName")
     private List<String> sourceFileNames;
+    
+    @Parameter(property = "sourceLocale")
+    private String sourceLocale;
 
     @Parameter(property = "locales")
     private List<String> locales;
@@ -62,36 +66,24 @@ public class GetTranslationsOneSkyAppMojo extends AbstractOneSkyAppMojo {
 
     private void getTranslations() throws MojoExecutionException {
         try {
+            if (!outputDir.exists()) {
+                outputDir.mkdirs();
+            }
+            
             for (String sourceFileName : sourceFileNames) {
+                //https://github.com/dwissk/oneskyapp-maven-plugin/issues/1
+                if (!StringUtils.isEmpty(sourceLocale)){
+                    download(sourceLocale, sourceFileName, sourceFileName);
+                }
+                
                 for (String locale : locales) {
-                    System.out.println(String.format("Downloading %1s translations for %2s", locale, sourceFileName));
-                    
-                    OkHttpClient okHttpClient = new OkHttpClient();
-                    final String url = String.format(API_ENDPOINT + "projects/%1$s/translations?locale=%2$s&source_file_name=%3$s&%4$s", projectId, locale, sourceFileName, getAuthParams());
-                    final Request request = new Request.Builder().get().url(url).build();
-                    final Response response = okHttpClient.newCall(request).execute();
-                    
-                    if (response.code() == 200) {
-                        if (!outputDir.exists()) {
-                            outputDir.mkdirs();
-                        }
-                        //even though the OneSkyApp API documentation states that the file name should be sourceFileName_locale.sourceFileNameExtension, it is just locale.sourceFileNameExtension)
-                        //https://github.com/onesky/api-documentation-platform/blob/master/resources/translation.md
-
-                        String targetFileName = sourceFileName + "_" + locale;
-                        int index = sourceFileName.lastIndexOf(".");
-                        if (index>0){
-                            targetFileName = sourceFileName.substring(0, index) + "_" + locale + "." + sourceFileName.substring(index+1);
-                        }
-                        File outputFile = new File(outputDir, targetFileName);
-                        outputFile.createNewFile();
-                        final InputStream inputStream = response.body().byteStream();
-                        FileOutputStream fileOutputStream = new FileOutputStream(outputFile);
-                        IOUtils.copy(inputStream, fileOutputStream);
-                        System.out.println(String.format("Successfully downloaded %1s translation for %2s to %3s", locale, sourceFileName, outputFile.getName()));
-                    } else {
-                        throw new MojoExecutionException(String.format("OneSkyApp API returned %1$s: %2s", response.code(), response.message()));
+                    String targetFileName = sourceFileName + "_" + locale;
+                    int index = sourceFileName.lastIndexOf(".");
+                    if (index>0){
+                        targetFileName = sourceFileName.substring(0, index) + "_" + locale + "." + sourceFileName.substring(index+1);
                     }
+                    
+                    download(locale, sourceFileName, targetFileName);
                 }
             }
         } catch (IOException | MojoExecutionException ex) {
@@ -100,6 +92,30 @@ public class GetTranslationsOneSkyAppMojo extends AbstractOneSkyAppMojo {
             } else {
                 System.out.println("Caught exception: "+ex.getMessage());
             }
+        }
+    }
+
+    private void download(String locale, String sourceFileName, String targetFileName) throws IOException, MojoExecutionException {
+        System.out.println(String.format("Downloading %1s translations for %2s", locale, sourceFileName));
+                    
+        OkHttpClient okHttpClient = new OkHttpClient();
+        final String url = String.format(API_ENDPOINT + "projects/%1$s/translations?locale=%2$s&source_file_name=%3$s&%4$s", projectId, locale, sourceFileName, getAuthParams());
+        final Request request = new Request.Builder().get().url(url).build();
+        final Response response = okHttpClient.newCall(request).execute();
+
+        if (response.code() == 200) {
+
+            //even though the OneSkyApp API documentation states that the file name should be sourceFileName_locale.sourceFileNameExtension, it is just locale.sourceFileNameExtension)
+            //https://github.com/onesky/api-documentation-platform/blob/master/resources/translation.md
+
+            File outputFile = new File(outputDir, targetFileName);
+            outputFile.createNewFile();
+            final InputStream inputStream = response.body().byteStream();
+            FileOutputStream fileOutputStream = new FileOutputStream(outputFile);
+            IOUtils.copy(inputStream, fileOutputStream);
+            System.out.println(String.format("Successfully downloaded %1s translation for %2s to %3s", locale, sourceFileName, outputFile.getName()));
+        } else {
+            throw new MojoExecutionException(String.format("OneSkyApp API returned %1$s: %2s", response.code(), response.message()));
         }
     }
 }
