@@ -13,7 +13,6 @@ PUBLIC_KEY | [your OneSkyApp public key](http://support.oneskyapp.com/support/so
 SECRET_KEY | [your OneSkyApp secret key](http://support.oneskyapp.com/support/solutions/articles/89104-how-to-find-your-api)
 PROJECT_ID | browse your project and take the ID from the URL
 
-### Example pom.xml config
 ```xml
 <plugin>
   <groupId>de.ebf</groupId>
