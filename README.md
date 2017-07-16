@@ -67,7 +67,7 @@ PROJECT_ID | browse your project and take the ID from the URL
 goal | description | configuration params
 --- | --- | ---
 get-translations | download translation files | - `<sourceFileNames>` the name of the files to download <br/> - `<locales>` the translations to download. files will be stored as `[outputDir]/[sourceFileName]_[locale].[sourceFileNameExtension]`<br/> - `<sourceLocale>` optional: will be stored as `[outputDir]/[sourceFileName].[sourceFileNameExtension]` <br /> - `<outputDir>` relative or absolute path for the download files
-upload-files | upload translation files. | - `<files>` files to upload <br/> - `<locale>` the locale of the upload <br/> `<fileFormat>` - [the file format](https://github.com/onesky/api-documentation-platform/blob/master/reference/format.md)
+upload-files | upload translation files. | - `<files>` files to upload <br/> - `<locale>` the locale of the upload <br/> - `<fileFormat>` [the file format](https://github.com/onesky/api-documentation-platform/blob/master/reference/format.md)
 
 ### Execute maven plugin
 
