@@ -1,4 +1,4 @@
-[![Maven Central](https://maven-badges.herokuapp.com/maven-central/de.ebf/oneskyapp-maven-plugin/badge.png)
+[![Maven Central](https://maven-badges.herokuapp.com/maven-central/de.ebf/oneskyapp-maven-plugin/badge.png)](https://maven-badges.herokuapp.com/maven-central/de.ebf/oneskyapp-maven-plugin)
 
 # oneskyapp-maven-plugin
 
