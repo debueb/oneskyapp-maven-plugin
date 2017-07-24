@@ -1,3 +1,5 @@
+[![Maven Central](https://maven-badges.herokuapp.com/maven-central/de.ebf/oneskyapp-maven-plugin/badge.png)
+
 # oneskyapp-maven-plugin
 
 This plugin allows you to download and upload translation files from the excellent online translation service [OneSkyApp](http://www.oneskyapp.com)
