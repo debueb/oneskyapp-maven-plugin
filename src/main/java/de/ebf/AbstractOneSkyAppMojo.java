@@ -15,52 +15,57 @@ package de.ebf;
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import com.google.common.hash.Hashing;
-import org.apache.maven.plugin.AbstractMojo;
 
+import com.google.common.hash.Hashing;
+import com.squareup.okhttp.HttpUrl;
+import org.apache.maven.plugin.AbstractMojo;
+import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugins.annotations.Parameter;
 
 import java.nio.charset.StandardCharsets;
-import org.apache.maven.plugin.MojoExecutionException;
 
 /**
  * Goal which downloads translations from oneskyapp.com
  */
 public abstract class AbstractOneSkyAppMojo extends AbstractMojo {
 
-    final String API_ENDPOINT = "https://platform.api.onesky.io/1/";
+  final String API_ENDPOINT = "https://platform.api.onesky.io/1/";
 
-    @Parameter(property = "publicKey")
-    String publicKey;
+  @Parameter(property = "publicKey")
+  String publicKey;
 
-    @Parameter(property = "secretKey")
-    String secretKey;
+  @Parameter(property = "secretKey")
+  String secretKey;
 
-    @Parameter(property = "projectId")
-    String projectId;
-    
-    @Parameter
-    Boolean failOnError;
-    
-    /**
-     * 
-     * @throws MojoExecutionException in case of missing parameters
-     */
-    @Override
-    public void execute() throws MojoExecutionException {
-        if (publicKey == null || secretKey == null || projectId == null){
-            showHelp();
-        }
+  @Parameter(property = "projectId")
+  String projectId;
+
+  @Parameter
+  Boolean failOnError;
+
+  /**
+   * @throws MojoExecutionException in case of missing parameters
+   */
+  @Override
+  public void execute() throws MojoExecutionException {
+    if (publicKey == null || secretKey == null || projectId == null) {
+      showHelp();
     }
-    
-    void showHelp() throws MojoExecutionException{
-        throw new MojoExecutionException("Missing one ore more required parameters. See https://github.com/dwissk/oneskyapp-maven-plugin");
-    }
+  }
 
-    
-    String getAuthParams(){
-        final long timestamp = System.currentTimeMillis() / 1000;
-        final String devHash = Hashing.md5().hashString(timestamp + secretKey, StandardCharsets.UTF_8).toString();
-        return String.format("api_key=%1$s&timestamp=%2$s&dev_hash=%3$s", publicKey, timestamp, devHash);
-    }
+  void showHelp() throws MojoExecutionException {
+    throw new MojoExecutionException("Missing one ore more required parameters. See https://github.com/dwissk/oneskyapp-maven-plugin");
+  }
+
+  public HttpUrl.Builder getHttpBuilder() {
+    final Long timestamp = System.currentTimeMillis() / 1000;
+    final String devHash = Hashing.md5().hashString(timestamp + secretKey, StandardCharsets.UTF_8).toString();
+    HttpUrl.Builder builder = HttpUrl.parse(API_ENDPOINT).newBuilder()
+      .addPathSegment("projects")
+      .addPathSegment(projectId)
+      .addQueryParameter("api_key", publicKey)
+      .addQueryParameter("timestamp", timestamp.toString())
+      .addQueryParameter("dev_hash", devHash);
+    return builder;
+  }
 }
