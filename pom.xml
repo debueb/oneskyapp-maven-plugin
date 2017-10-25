@@ -4,12 +4,14 @@
 
     <groupId>de.ebf</groupId>
     <artifactId>oneskyapp-maven-plugin</artifactId>
-    <version>1.0.3</version>
+    <version>1.0.4</version>
     <packaging>maven-plugin</packaging>
     <name>de.ebf:oneskyapp-maven-plugin</name>
-    <description>This plugin allows you to download and upload translation files from the excellent online translation service http://www.oneskyapp.com/</description>
+    <description>This plugin allows you to download and upload translation files from the excellent online translation
+        service http://www.oneskyapp.com/
+    </description>
     <url>https://github.com/dwissk/oneskyapp-maven-plugin</url>
-   
+
     <licenses>
         <license>
             <name>The Apache License, Version 2.0</name>
@@ -25,7 +27,7 @@
             <organizationUrl>http://www.ebf.de</organizationUrl>
         </developer>
     </developers>
-    
+
     <scm>
         <connection>scm:git:git@github.com:dwissk/oneskyapp-maven-plugin.git</connection>
         <developerConnection>scm:git:git@github.com:dwissk/oneskyapp-maven-plugin.git</developerConnection>
@@ -89,7 +91,7 @@
     <build>
         <plugins>
             <!-- http://central.sonatype.org/pages/apache-maven.html -->
-            
+
             <!-- deploy to sonatype staging -->
             <plugin>
                 <groupId>org.sonatype.plugins</groupId>
@@ -102,7 +104,7 @@
                     <autoReleaseAfterClose>true</autoReleaseAfterClose>
                 </configuration>
             </plugin>
-            
+
             <!-- attach sources -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -117,7 +119,7 @@
                     </execution>
                 </executions>
             </plugin>
-            
+
             <!-- attach javadoc -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -130,12 +132,12 @@
                             <goal>jar</goal>
                         </goals>
                         <configuration>
-                           <additionalparam>-Xdoclint:none</additionalparam>
+                            <additionalparam>-Xdoclint:none</additionalparam>
                         </configuration>
                     </execution>
                 </executions>
             </plugin>
-            
+
             <!-- sign artificats with gpg -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -151,7 +153,7 @@
                     </execution>
                 </executions>
             </plugin>
-            
+
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-plugin-plugin</artifactId>
